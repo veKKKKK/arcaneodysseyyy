@@ -1,8 +1,4 @@
--- VARIABLES
-
 getgenv().ak = false;
-
--- GUI LIB
 
 local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
 
@@ -16,9 +12,7 @@ local v1Section = Tab:NewSection("Farming")
 
 local v2Section = Tab2:NewSection("Misc")
 
--- SECTIONS FOR THE GUI
-
-Section:NewToggle("Auto Kill", "Auto Kills/Shreds Enemies (MUST USE A WEAPON)", function(state)
+v1Section:NewToggle("Auto Kill", "Auto Kills/Shreds Enemies (MUST USE A WEAPON)", function(state)
     if state then
         getgenv().ak = true;
         doAuto()
@@ -27,11 +21,9 @@ Section:NewToggle("Auto Kill", "Auto Kills/Shreds Enemies (MUST USE A WEAPON)", 
     end
 end)
 
-v2Section:NewKeybind("Toggle GUI", "Toggles the Gui", Enum.KeyCode.RightControl, function()
+v2Section:NewKeybind("Toggle GUI", "Toggles Gui", Enum.KeyCode.RightControl, function()
 	Library:ToggleUI()
 end)
-
--- FUNCTIONS
 
 function doAuto()
     spawn(function()
