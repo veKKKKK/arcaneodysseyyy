@@ -1,0 +1,54 @@
+-- VARIABLES
+
+getgenv().ak = false;
+
+-- GUI LIB
+
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+
+local Window = Library.CreateLib("Arcane Odyssey", "DarkTheme")
+
+local Tab = Window:NewTab("Main")
+
+local Tab2 = Window:NewTab("Misc")
+
+local v1Section = Tab:NewSection("Farming")
+
+local v2Section = Tab2:NewSection("Misc")
+
+-- SECTIONS FOR THE GUI
+
+Section:NewToggle("Auto Kill", "Auto Kills/Shreds Enemies (MUST USE A WEAPON)", function(state)
+    if state then
+        getgenv().ak = true;
+        doAuto()
+    else
+        getgenv().ak = false;
+    end
+end)
+
+v2Section:NewKeybind("Toggle GUI", "Toggles the Gui", Enum.KeyCode.RightControl, function()
+	Library:ToggleUI()
+end)
+
+-- FUNCTIONS
+
+function doAuto()
+    spawn(function()
+        while ak do task.wait()
+            for i,v in pairs(workspace.Enemies:GetChildren()) do
+                if v:IsA("Model") and v:FindFirstChildOfClass("Humanoid") and v:FindFirstChildOfClass("Humanoid").Health > 0 and game.Players.LocalPlayer:DistanceFromCharacter(v.PrimaryPart.Position) < 21 then
+                    local args = {
+                        [1] = 0,
+                        [2] = game:GetService("Players").LocalPlayer.Character,
+                        [3] = v,
+                        [4] = game:GetService("Players").LocalPlayer.Character:FindFirstChildOfClass("Tool"),
+                        [5] = "Slash"
+                    }
+         
+                    game:GetService("ReplicatedStorage").RS.Remotes.Combat.DealWeaponDamage:FireServer(unpack(args))
+                end
+            end
+        end
+    end)
+end
